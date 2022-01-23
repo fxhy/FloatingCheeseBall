@@ -1,0 +1,68 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto Condensed', sans-serif;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul {
+    margin: 0;
+    padding: 0;
+}
+
+img, svg, canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+.container {
+    width: 96%;
+    margin: auto;
+    max-width: 1200px;
+}
+
+.cheema-background-globe-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+    .cheema-background-globe-container::after {
+        content: " ";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(ellipse at top, #5151514a, transparent), radial-gradient(ellipse at bottom, #3c3c3cd9, transparent);
+        background: linear-gradient(to bottom, #ffffff82, #525252);
+    }
+
+.top-section-container {
+    position: relative;
+    min-height: 100vh;
+}
+
+.top-section-items {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+    .top-section-items h1 {
+        color: #000000;
+        font-size: 40px;
+        line-height: 45px;
+        margin-bottom: 10px;
+    }
+
+    .top-section-items p {
+        color: white;
+        font-size: 30px;
+        line-height: 35px;
+    }
