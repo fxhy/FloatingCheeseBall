@@ -1,5 +1,8 @@
 <!DOCTYPE HTML>
 <html>
+<script>
+	import * as THREE from "three";
+</script>
   <head>
 	<meta charset="utf-8">
 	<title>Turning Cheese Ball</title>
@@ -9,7 +12,6 @@
   </head>
   <body>
 	<script>
-		import * as THREE from "three";
 		const scene = new THREE.Scene();
 		var geometry   = new THREE.SphereGeometry(0.5, 32, 32)
 		var material  = new THREE.MeshPhongMaterial()
