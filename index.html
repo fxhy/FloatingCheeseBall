@@ -69,7 +69,7 @@
 
 	var geometry	= new THREE.SphereGeometry(0.5, 32, 32)
 	var material	= THREEx.createAtmosphereMaterial()
-	material.uniforms.glowColor.value.set(#FFFFFF)
+	material.uniforms.glowColor.value.set(0x00b3ff)
 	material.uniforms.coeficient.value	= 0.8
 	material.uniforms.power.value		= 2.0
 	var mesh	= new THREE.Mesh(geometry, material );
