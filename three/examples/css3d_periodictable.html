@@ -279,6 +279,45 @@
 				var starSphere	= THREEx.Planets.createStarfield()
 				scene.add(starSphere)
 
+				//////////////////////////////////////////////////////////////////////////////////
+				//		add an object and make it move					//
+				//////////////////////////////////////////////////////////////////////////////////
+
+				// var datGUI	= new dat.GUI()
+
+				var containerMoon	= new THREE.Object3D()
+				containerMoon.rotateZ(-23.4 * Math.PI/180)
+				containerMoon.position.z	= 0
+				scene.add(containerMoon)
+
+				var moonMesh	= THREEx.Planets.createMoon()
+				moonMesh.receiveShadow	= true
+				moonMesh.castShadow	= false
+				containerMoon.add(moonMesh)
+				onRenderFcts.push(function(delta, now){
+					moonMesh.rotation.y += 1/32 * delta;		
+				})
+
+				var geometry	= new THREE.SphereGeometry(0.5, 32, 32)
+				var material	= THREEx.createAtmosphereMaterial()
+				material.uniforms.glowColor.value.set(0xa3a3a3)
+				material.uniforms.coeficient.value	= 0.8
+				material.uniforms.power.value		= 2.0
+				var mesh	= new THREE.Mesh(geometry, material );
+				mesh.scale.multiplyScalar(1.01);
+				containerMoon.add( mesh );
+				// new THREEx.addAtmosphereMaterial2DatGui(material, datGUI)
+
+				var geometry	= new THREE.SphereGeometry(0.5, 32, 32)
+				var material	= THREEx.createAtmosphereMaterial()
+				material.side	= THREE.BackSide
+				material.uniforms.glowColor.value.set(0xa3a3a3)
+				material.uniforms.coeficient.value	= 0.5
+				material.uniforms.power.value		= 4.0
+				var mesh	= new THREE.Mesh(geometry, material );
+				mesh.scale.multiplyScalar(1.15);
+				containerMoon.add( mesh );
+
 				// table
 
 				for ( let i = 0; i < table.length; i += 5 ) {
