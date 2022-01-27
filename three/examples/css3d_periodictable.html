@@ -80,9 +80,8 @@
 			}
 		</style>
 	</head>
-	<body>
+	<body style='margin: 0px; background-color: #000000; overflow: hidden;'>
 
-		<div id="info"><a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> css3d - periodic table.</div>
 		<div id="container"></div>
 		<div id="menu">
 			<button id="table">TABLE</button>
@@ -247,6 +246,33 @@
 				camera.position.z = 3000;
 
 				scene = new THREE.Scene();
+				var light	= new THREE.DirectionalLight( 0xffffff, 1 )
+				light.position.set(5,5,5)
+				scene.add( light )
+
+				light.castShadow	= true
+				light.shadowCameraNear	= 0.01
+				light.shadowCameraFar	= 15
+				light.shadowCameraFov	= 45
+
+				light.shadowCameraLeft	= -1
+				light.shadowCameraRight	=  1
+				light.shadowCameraTop	=  1
+				light.shadowCameraBottom= -1
+				// light.shadowCameraVisible	= true
+
+				light.shadowBias	= 0.001
+				light.shadowDarkness	= 0.2
+
+				light.shadowMapWidth	= 1024
+				light.shadowMapHeight	= 1024
+
+				//////////////////////////////////////////////////////////////////////////////////
+				//		added starfield							//
+				//////////////////////////////////////////////////////////////////////////////////
+				
+				var starSphere	= THREEx.Planets.createStarfield()
+				scene.add(starSphere)
 
 				// table
 
