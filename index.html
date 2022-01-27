@@ -8,6 +8,10 @@
 <script src="../js/three.module.js"></script>
 
 <body style='margin: 0px; background-color: #000000; overflow: hidden;'><script>
+	import * as THREE from 'three';
+	import { TWEEN } from './jsm/libs/tween.module.min.js';
+	import { TrackballControls } from './jsm/controls/TrackballControls.js';
+	import { CSS3DRenderer, CSS3DObject } from './jsm/renderers/CSS3DRenderer.js';
 	var renderer	= new THREE.WebGLRenderer({
 		antialias	: true
 	});
@@ -110,6 +114,66 @@
 	//////////////////////////////////////////////////////////////////////////////////
 	//		add Markers							//
 	//////////////////////////////////////////////////////////////////////////////////
+	
+	/*
+	let markerProto = {
+  latLongToVector3: function latLongToVector3(latitude, longitude, radius, height) {
+    var phi = (latitude)*Math.PI/180;
+    var theta = (longitude-180)*Math.PI/180;
+
+    var x = -(radius+height) * Math.cos(phi) * Math.cos(theta);
+    var y = (radius+height) * Math.sin(phi);
+    var z = (radius+height) * Math.cos(phi) * Math.sin(theta);
+
+    return new THREE.Vector3(x,y,z);
+  },
+  marker: function marker(size, color, vector3Position) {
+    let markerGeometry = new THREE.SphereGeometry(size);
+    let markerMaterial = new THREE.MeshLambertMaterial({
+      color: color
+    });
+    let markerMesh = new THREE.Mesh(markerGeometry, markerMaterial);
+    markerMesh.position.copy(vector3Position);
+    
+    return markerMesh;
+  }
+}
+
+// Place Marker
+let placeMarker = function(object, options) {
+  let position = markerProto.latLongToVector3(options.latitude, options.longitude, options.radius, options.height);
+  let marker = markerProto.marker(options.size, options.color, position);
+  object.add(marker);
+}
+
+// Place Marker At Address
+let placeMarkerAtAddress = function(address, color) {
+  let encodedLocation = address.replace(/\s/g, '+');
+  let httpRequest = new XMLHttpRequest();
+  
+  httpRequest.open('GET', 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodedLocation);
+  httpRequest.send(null);
+  httpRequest.onreadystatechange = function() {
+    if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+      let result = JSON.parse(httpRequest.responseText);
+      
+      if (result.results.length > 0) {
+        let latitude = result.results[0].geometry.location.lat;
+        let longitude = result.results[0].geometry.location.lng;
+
+        placeMarker(earth.getObjectByName('surface'),{
+          latitude: latitude,
+          longitude: longitude,
+          radius: 0.5,
+          height: 0,
+          size: 0.01,
+          color: color,
+        });
+      }
+    }
+  };
+}
+*/
 	const object = new THREE.CylinderGeometry( 5, 5, 20, 32 );
 	const objMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
 	const cylinder = new THREE.Mesh( object, objMaterial );
