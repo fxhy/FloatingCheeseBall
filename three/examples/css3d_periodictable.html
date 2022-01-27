@@ -100,13 +100,13 @@
 		<script src="../threex.atmospheredatgui.js"></script>
 		<script src="../../js/three.module.js"></script>
 
-		<script type="importmap">
+		<!-- <script type="importmap">
 			{
 				"imports": {
 					"three": "../build/three.module.js"
 				}
 			}
-		</script>
+		</script> -->
 
 		<script type="module">
 
@@ -257,7 +257,7 @@
 				scene.add( light )
 
 				light.castShadow	= true
-				light.shadowCameraNear	= 0.01
+				light.shadow.camera.near	= 0.01
 				light.shadowCameraFar	= 15
 				light.shadowCameraFov	= 45
 
