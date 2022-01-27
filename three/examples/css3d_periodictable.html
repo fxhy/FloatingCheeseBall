@@ -250,6 +250,7 @@
 
 				camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
 				camera.position.z = 3000;
+				var onRenderFcts= [];
 
 				scene = new THREE.Scene();
 				var light	= new THREE.DirectionalLight( 0xffffff, 1 )
@@ -263,15 +264,14 @@
 
 				light.shadow.camera.left	= -1
 				light.shadow.camera.right	=  1
-				light.shadowCameraTop	=  1
-				light.shadowCameraBottom= -1
+				light.shadow.camera.top	=  1
+				light.shadow.camera.bottom = -1
 				// light.shadowCameraVisible	= true
 
-				light.shadowBias	= 0.001
-				light.shadowDarkness	= 0.2
+				light.shadow.bias	= 0.001
 
-				light.shadowMapWidth	= 1024
-				light.shadowMapHeight	= 1024
+				light.shadow.mapSize.width	= 1024
+				light.shadow.mapSize.height	= 1024
 
 				//////////////////////////////////////////////////////////////////////////////////
 				//		added starfield							//
@@ -284,40 +284,38 @@
 				// //		add an object and make it move					//
 				// //////////////////////////////////////////////////////////////////////////////////
 
-				// // var datGUI	= new dat.GUI()
+				var containerMoon	= new THREE.Object3D()
+				containerMoon.rotateZ(-23.4 * Math.PI/180)
+				containerMoon.position.z	= 0
+				scene.add(containerMoon)
 
-				// var containerMoon	= new THREE.Object3D()
-				// containerMoon.rotateZ(-23.4 * Math.PI/180)
-				// containerMoon.position.z	= 0
-				// scene.add(containerMoon)
+				var moonMesh	= THREEx.Planets.createMoon()
+				moonMesh.receiveShadow	= true
+				moonMesh.castShadow	= false
+				containerMoon.add(moonMesh)
+				onRenderFcts.push(function(delta, now){
+					moonMesh.rotation.y += 1/32 * delta;		
+				})
 
-				// var moonMesh	= THREEx.Planets.createMoon()
-				// moonMesh.receiveShadow	= true
-				// moonMesh.castShadow	= false
-				// containerMoon.add(moonMesh)
-				// onRenderFcts.push(function(delta, now){
-				// 	moonMesh.rotation.y += 1/32 * delta;		
-				// })
+				var geometry	= new THREE.SphereGeometry(0.5, 32, 32)
+				var material	= THREEx.createAtmosphereMaterial()
+				material.uniforms.glowColor.value.set(0xa3a3a3)
+				material.uniforms.coeficient.value	= 0.8
+				material.uniforms.power.value		= 2.0
+				var mesh	= new THREE.Mesh(geometry, material );
+				mesh.scale.multiplyScalar(1.01);
+				containerMoon.add( mesh );
+				// new THREEx.addAtmosphereMaterial2DatGui(material, datGUI)
 
-				// var geometry	= new THREE.SphereGeometry(0.5, 32, 32)
-				// var material	= THREEx.createAtmosphereMaterial()
-				// material.uniforms.glowColor.value.set(0xa3a3a3)
-				// material.uniforms.coeficient.value	= 0.8
-				// material.uniforms.power.value		= 2.0
-				// var mesh	= new THREE.Mesh(geometry, material );
-				// mesh.scale.multiplyScalar(1.01);
-				// containerMoon.add( mesh );
-				// // new THREEx.addAtmosphereMaterial2DatGui(material, datGUI)
-
-				// var geometry	= new THREE.SphereGeometry(0.5, 32, 32)
-				// var material	= THREEx.createAtmosphereMaterial()
-				// material.side	= THREE.BackSide
-				// material.uniforms.glowColor.value.set(0xa3a3a3)
-				// material.uniforms.coeficient.value	= 0.5
-				// material.uniforms.power.value		= 4.0
-				// var mesh	= new THREE.Mesh(geometry, material );
-				// mesh.scale.multiplyScalar(1.15);
-				// containerMoon.add( mesh );
+				var geometry	= new THREE.SphereGeometry(0.5, 32, 32)
+				var material	= THREEx.createAtmosphereMaterial()
+				material.side	= THREE.BackSide
+				material.uniforms.glowColor.value.set(0xa3a3a3)
+				material.uniforms.coeficient.value	= 0.5
+				material.uniforms.power.value		= 4.0
+				var mesh	= new THREE.Mesh(geometry, material );
+				mesh.scale.multiplyScalar(1.15);
+				containerMoon.add( mesh );
 
 				// table
 
@@ -458,6 +456,9 @@
 				} );
 
 				transform( targets.table, 2000 );
+				onRenderFcts.push(function(){
+					renderer.render( scene, camera );		
+				})
 
 				//
 
