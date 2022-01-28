@@ -341,8 +341,8 @@
 			function createMoon(){
 				var geometry	= new THREE.SphereGeometry(0.5, 32, 32)
 				var material	= new THREE.MeshPhongMaterial({
-					map	: THREE.ImageUtils.TextureLoader('./images/moonmap1k.jpg'),
-					bumpMap	: THREE.ImageUtils.TextureLoader('./images/moonbump1k.jpg'),
+					map	: THREE.TextureLoader('./images/moonmap1k.jpg'),
+					bumpMap	: THREE.TextureLoader('./images/moonbump1k.jpg'),
 					bumpScale: 0.002,
 				})
 				var mesh	= new THREE.Mesh(geometry, material)
@@ -350,7 +350,7 @@
 			}
 
 			function createStarfield(){
-				var texture	= THREE.ImageUtils.TextureLoader('./images/galaxy_starfield.png')
+				var texture	= THREE.TextureLoader('./images/galaxy_starfield.png')
 				var material	= new THREE.MeshBasicMaterial({
 					map	: texture,
 					side	: THREE.BackSide
