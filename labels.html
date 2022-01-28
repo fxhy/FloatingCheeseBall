@@ -85,7 +85,7 @@
 		<div id="menu">
 			<button id="table">TABLE</button>
 			<button id="sphere">SPHERE</button>
-			<button id="helix">HELIX</button>
+			<!-- <button id="helix">HELIX</button> -->
 			<button id="grid">GRID</button>
 		</div>
 
@@ -159,7 +159,8 @@
 			let controls;
 
 			const objects = [];
-			const targets = { table: [], sphere: [], helix: [], grid: [] };
+			// const targets = { table: [], sphere: [], helix: [], grid: [] };
+			const targets = { table: [], sphere: [], grid: [] };
 
 			init();
 			animate();
@@ -227,32 +228,32 @@
 
 					vector.copy( object.position ).multiplyScalar( 2 );
 
-					object.lookAt( vector );
+					object.lookAt( camera.position );
 
 					targets.sphere.push( object );
 
 				}
 
-				// helix
+				// // helix
 
-				for ( let i = 0, l = objects.length; i < l; i ++ ) {
+				// for ( let i = 0, l = objects.length; i < l; i ++ ) {
 
-					const theta = i * 0.175 + Math.PI;
-					const y = - ( i * 8 ) + 450;
+				// 	const theta = i * 0.175 + Math.PI;
+				// 	const y = - ( i * 8 ) + 450;
 
-					const object = new THREE.Object3D();
+				// 	const object = new THREE.Object3D();
 
-					object.position.setFromCylindricalCoords( 900, theta, y );
+				// 	object.position.setFromCylindricalCoords( 900, theta, y );
 
-					vector.x = object.position.x * 2;
-					vector.y = object.position.y;
-					vector.z = object.position.z * 2;
+				// 	vector.x = object.position.x * 2;
+				// 	vector.y = object.position.y;
+				// 	vector.z = object.position.z * 2;
 
-					object.lookAt( vector );
+				// 	object.lookAt( vector );
 
-					targets.helix.push( object );
+				// 	targets.helix.push( object );
 
-				}
+				// }
 
 				// grid
 
@@ -295,12 +296,12 @@
 
 				} );
 
-				const buttonHelix = document.getElementById( 'helix' );
-				buttonHelix.addEventListener( 'click', function () {
+				// const buttonHelix = document.getElementById( 'helix' );
+				// buttonHelix.addEventListener( 'click', function () {
 
-					transform( targets.helix, 2000 );
+				// 	transform( targets.helix, 2000 );
 
-				} );
+				// } );
 
 				const buttonGrid = document.getElementById( 'grid' );
 				buttonGrid.addEventListener( 'click', function () {
