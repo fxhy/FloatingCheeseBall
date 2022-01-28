@@ -228,10 +228,23 @@
 
 					vector.copy( object.position ).multiplyScalar( 2 );
 
+					const labelPosition = object.position;
+					// const spherePosition
+
+					// line
+					const points = [ vector, labelPosition ]; // instances of Vector3
+
+					const lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
+					const lineMaterial = new THREE.LineBasicMaterial( { color: 0xff0000 } );
+
+					const line = new THREE.Line( lineGeometry, lineMaterial );
+					//scene.add( line );
+
 					// object.lookAt( vector );
 					object.quaternion.copy(camera.quaternion);
 
 					targets.sphere.push( object );
+					targets.sphere.push( line );
 
 				}
 
