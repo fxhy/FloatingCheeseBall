@@ -338,8 +338,8 @@
 			function createMoon(){
 				var geometry	= new THREE.SphereGeometry(0.5, 32, 32)
 				var material	= new THREE.MeshPhongMaterial({
-					map	: THREE.ImageUtils.loadTexture(THREEx.Planets.baseURL+'images/moonmap1k.jpg'),
-					bumpMap	: THREE.ImageUtils.loadTexture(THREEx.Planets.baseURL+'images/moonbump1k.jpg'),
+					map	: THREE.ImageUtils.loadTexture('./images/moonmap1k.jpg'),
+					bumpMap	: THREE.ImageUtils.loadTexture('./images/moonbump1k.jpg'),
 					bumpScale: 0.002,
 				})
 				var mesh	= new THREE.Mesh(geometry, material)
