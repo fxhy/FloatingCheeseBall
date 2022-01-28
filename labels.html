@@ -229,6 +229,7 @@
 					vector.copy( object.position ).multiplyScalar( 2 );
 
 					// object.lookAt( vector );
+					object.quaternion.copy(camera.quaternion);
 
 					targets.sphere.push( object );
 
