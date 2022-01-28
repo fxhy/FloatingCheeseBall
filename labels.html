@@ -101,7 +101,7 @@
 			}
 		</script>
 
-		<script type="module" src='../threex.planets.js'>
+		<script type="module">
 
 			import * as THREE from 'three';
 
@@ -172,8 +172,8 @@
 
 				scene = new THREE.Scene();
 				
-				var starSphere	= THREEx.Planets.createStarfield()
-				scene.add(starSphere)
+				let moon = createMoon();
+				scene.add(moon);
 
 				// table
 
@@ -333,6 +333,17 @@
 
 				window.addEventListener( 'resize', onWindowResize );
 
+			}
+
+			function createMoon(){
+				var geometry	= new THREE.SphereGeometry(0.5, 32, 32)
+				var material	= new THREE.MeshPhongMaterial({
+					map	: THREE.ImageUtils.loadTexture(THREEx.Planets.baseURL+'images/moonmap1k.jpg'),
+					bumpMap	: THREE.ImageUtils.loadTexture(THREEx.Planets.baseURL+'images/moonbump1k.jpg'),
+					bumpScale: 0.002,
+				})
+				var mesh	= new THREE.Mesh(geometry, material)
+				return mesh	
 			}
 
 			function transform( targets, duration ) {
