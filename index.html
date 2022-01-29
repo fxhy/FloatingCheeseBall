@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<script src='./three/build/three.min.js'></script>
-<script src='../threex.planets.js'></script>
-<script src='../threex.atmospherematerial.js'></script>
+<script src='./vendor/three.js/build/three.min.js'></script>
+<script src='./threex.planets.js'></script>
+<script src='./threex.atmospherematerial.js'></script>
 <!-- include for threex.glowdatgui -->
-<script src='vendor/three.js/examples/js/libs/dat.gui.min.js'></script>
-<script src="../threex.atmospheredatgui.js"></script>
-<script src="../js/three.module.js"></script>
+<script src='./vendor/three.js/examples/js/libs/dat.gui.min.js'></script>
+<script src="./threex.atmospheredatgui.js"></script>
+<!-- <script src="../js/three.module.js"></script> -->
 
 <body style='margin: 0px; background-color: #000000; overflow: hidden;'><script type="module">
 	// import * as THREE from './three/build/three.module.js';
@@ -191,12 +191,13 @@ let placeMarkerAtAddress = function(address, color) {
 	}
 	moonMesh.add(cylinder);
 
+
 	//////////////////////////////////////////////////////////////////////////////////
 	//		Make the Universe						//
 	//////////////////////////////////////////////////////////////////////////////////
 
 	function createStarfield(){
-		var texture	= new THREE.TextureLoader().load('./images/galaxy_starfield.png')
+		var texture	= THREE.ImageUtils.loadTexture('./images/galaxy_starfield.png')
 		var material	= new THREE.MeshBasicMaterial({
 			map	: texture,
 			side	: THREE.BackSide
