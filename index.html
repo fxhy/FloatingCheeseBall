@@ -8,10 +8,10 @@
 <script src="../js/three.module.js"></script>
 
 <body style='margin: 0px; background-color: #000000; overflow: hidden;'><script type="module">
-	import * as THREE from './three/build/three.module.js';
-	import { TWEEN } from './three/examples/jsm/libs/tween.module.min.js';
-	import { TrackballControls } from './three/examples/jsm/controls/TrackballControls.js';
-	import { CSS3DRenderer, CSS3DObject } from './three/examples/jsm/renderers/CSS3DRenderer.js';
+	// import * as THREE from './three/build/three.module.js';
+	// import { TWEEN } from './three/examples/jsm/libs/tween.module.min.js';
+	// import { TrackballControls } from './three/examples/jsm/controls/TrackballControls.js';
+	// import { CSS3DRenderer, CSS3DObject } from './three/examples/jsm/renderers/CSS3DRenderer.js';
 	var renderer	= new THREE.WebGLRenderer({
 		antialias	: true
 	});
@@ -51,7 +51,7 @@
 	//		added starfield							//
 	//////////////////////////////////////////////////////////////////////////////////
 	
-	var starSphere	= THREEx.Planets.createStarfield()
+	var starSphere	= createStarfield()
 	scene.add(starSphere)
 
 	//////////////////////////////////////////////////////////////////////////////////
@@ -65,7 +65,7 @@
 	containerMoon.position.z	= 0
 	scene.add(containerMoon)
 
-	var moonMesh	= THREEx.Planets.createMoon()
+	var moonMesh	= createMoon()
 	moonMesh.receiveShadow	= true
 	moonMesh.castShadow	= false
 	containerMoon.add(moonMesh)
@@ -190,6 +190,32 @@ let placeMarkerAtAddress = function(address, color) {
     object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
 	}
 	moonMesh.add(cylinder);
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Make the Universe						//
+	//////////////////////////////////////////////////////////////////////////////////
+
+	function createStarfield(){
+		var texture	= new THREE.TextureLoader().load('./images/galaxy_starfield.png')
+		var material	= new THREE.MeshBasicMaterial({
+			map	: texture,
+			side	: THREE.BackSide
+		})
+		var geometry	= new THREE.SphereGeometry(100, 32, 32)
+		var mesh	= new THREE.Mesh(geometry, material)
+		return mesh	
+	}
+
+	function createMoon(){
+				var geometry	= new THREE.SphereGeometry(600, 32, 32)
+				var material	= new THREE.MeshPhongMaterial({
+					map	: new THREE.TextureLoader().load('./images/moonmap1k.jpg'),
+					bumpMap	: new THREE.TextureLoader().load('./images/moonbump1k.jpg'),
+					bumpScale: 0.002,
+				})
+				var mesh	= new THREE.Mesh(geometry, material)
+				return mesh	
+			}
 
 	//////////////////////////////////////////////////////////////////////////////////
 	//		render the scene						//
