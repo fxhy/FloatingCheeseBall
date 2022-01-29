@@ -86,7 +86,7 @@
 			<button id="table">TABLE</button>
 			<button id="sphere">SPHERE</button>
 			<!-- <button id="helix">HELIX</button> -->
-			<button id="grid">GRID</button>
+			<!-- <button id="grid">GRID</button> -->
 		</div>
 
 		<!-- Import maps polyfill -->
@@ -160,7 +160,7 @@
 
 			const objects = [];
 			// const targets = { table: [], sphere: [], helix: [], grid: [] };
-			const targets = { table: [], sphere: [], lines: [], grid: [] };
+			const targets = { table: [], sphere: [], lines: []};
 
 			init();
 			animate();
@@ -277,17 +277,17 @@
 
 				// grid
 
-				for ( let i = 0; i < objects.length; i ++ ) {
+				// for ( let i = 0; i < objects.length; i ++ ) {
 
-					const object = new THREE.Object3D();
+				// 	const object = new THREE.Object3D();
 
-					object.position.x = ( ( i % 5 ) * 400 ) - 800;
-					object.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 400 ) + 800;
-					object.position.z = ( Math.floor( i / 25 ) ) * 1000 - 2000;
+				// 	object.position.x = ( ( i % 5 ) * 400 ) - 800;
+				// 	object.position.y = ( - ( Math.floor( i / 5 ) % 5 ) * 400 ) + 800;
+				// 	object.position.z = ( Math.floor( i / 25 ) ) * 1000 - 2000;
 
-					targets.grid.push( object );
+				// 	targets.grid.push( object );
 
-				}
+				// }
 
 				//
 
@@ -323,12 +323,12 @@
 
 				// } );
 
-				const buttonGrid = document.getElementById( 'grid' );
-				buttonGrid.addEventListener( 'click', function () {
+				// const buttonGrid = document.getElementById( 'grid' );
+				// buttonGrid.addEventListener( 'click', function () {
 
-					transform( targets.grid, 2000, false );
+				// 	transform( targets.grid, 2000, false );
 
-				} );
+				// } );
 
 				transform( targets.table, 2000, false );
 
