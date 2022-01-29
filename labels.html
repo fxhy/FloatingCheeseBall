@@ -305,32 +305,32 @@
 				const buttonTable = document.getElementById( 'table' );
 				buttonTable.addEventListener( 'click', function () {
 
-					transform( targets.table, 2000, false );
+					transform( targets.table, 2000, false, targets.lines );
 
 				} );
 
 				const buttonSphere = document.getElementById( 'sphere' );
 				buttonSphere.addEventListener( 'click', function () {
 
-					transform( targets.sphere, 2000, true );
+					transform( targets.sphere, 2000, true, targets.lines );
 
 				} );
 
 				// const buttonHelix = document.getElementById( 'helix' );
 				// buttonHelix.addEventListener( 'click', function () {
 
-				// 	transform( targets.helix, 2000, false );
+				// 	transform( targets.helix, 2000, false, targets.lines );
 
 				// } );
 
 				// const buttonGrid = document.getElementById( 'grid' );
 				// buttonGrid.addEventListener( 'click', function () {
 
-				// 	transform( targets.grid, 2000, false );
+				// 	transform( targets.grid, 2000, false, targets.lines );
 
 				// } );
 
-				transform( targets.table, 2000, false );
+				transform( targets.table, 2000, false, targets.lines);
 
 				//
 
@@ -360,7 +360,7 @@
 				return mesh	
 			}
 
-			function transform( targets, duration, lines ) {
+			function transform( targets, duration, lines, tLines ) {
 
 				TWEEN.removeAll();
 
@@ -380,11 +380,20 @@
 						.start();
 
 				}
+				if (lines) {
+					for (let e = 0; e < tLines.length; e++) {
+						const line = array[e];
+						scene.add(line);
+						
+					}
+				}
 
 				new TWEEN.Tween( this )
 					.to( {}, duration * 2 )
 					.onUpdate( render )
 					.start();
+				
+				
 
 			}
 
