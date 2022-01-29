@@ -235,16 +235,16 @@
 					vector.copy( object.position ).multiplyScalar( 2 );
 
 					const labelPosition = object.position;
-					const spherePosition = new THREE.Vector3( 0, phi, theta );
+					const spherePosition = new THREE.Vector3( 0, 0, 0 );
 
 					// line
 					const points = [ spherePosition, labelPosition ]; // instances of Vector3
 
+					const lineMaterial = new THREE.LineBasicMaterial( { color: 0x0000ff } );
 					const lineGeometry = new THREE.BufferGeometry().setFromPoints( points );
-					const lineMaterial = new THREE.LineBasicMaterial( { color: 0xff0000 } );
 
 					const line = new THREE.Line( lineGeometry, lineMaterial );
-					//scene.add( line );
+					scene.add( line );
 
 					// object.lookAt( vector );
 					object.quaternion.copy(camera.quaternion);
