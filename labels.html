@@ -411,6 +411,11 @@
 			function animate() {
 
 				requestAnimationFrame( animate );
+				let moon = createMoon();
+				scene.add(moon);
+
+				let stars = createStarfield();
+				scene.add(stars);
 
 				TWEEN.update();
 
