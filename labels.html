@@ -160,7 +160,7 @@
 
 			const objects = [];
 			// const targets = { table: [], sphere: [], helix: [], grid: [] };
-			const targets = { table: [], sphere: [], grid: [] };
+			const targets = { table: [], sphere: [], lines: [], grid: [] };
 
 			init();
 			animate();
@@ -250,7 +250,7 @@
 					object.quaternion.copy(camera.quaternion);
 
 					targets.sphere.push( object );
-					targets.sphere.push( line );
+					targets.lines.push( line );
 
 				}
 
@@ -305,32 +305,32 @@
 				const buttonTable = document.getElementById( 'table' );
 				buttonTable.addEventListener( 'click', function () {
 
-					transform( targets.table, 2000 );
+					transform( targets.table, 2000, false );
 
 				} );
 
 				const buttonSphere = document.getElementById( 'sphere' );
 				buttonSphere.addEventListener( 'click', function () {
 
-					transform( targets.sphere, 2000 );
+					transform( targets.sphere, 2000, true );
 
 				} );
 
 				// const buttonHelix = document.getElementById( 'helix' );
 				// buttonHelix.addEventListener( 'click', function () {
 
-				// 	transform( targets.helix, 2000 );
+				// 	transform( targets.helix, 2000, false );
 
 				// } );
 
 				const buttonGrid = document.getElementById( 'grid' );
 				buttonGrid.addEventListener( 'click', function () {
 
-					transform( targets.grid, 2000 );
+					transform( targets.grid, 2000, false );
 
 				} );
 
-				transform( targets.table, 2000 );
+				transform( targets.table, 2000, false );
 
 				//
 
@@ -360,7 +360,7 @@
 				return mesh	
 			}
 
-			function transform( targets, duration ) {
+			function transform( targets, duration, lines ) {
 
 				TWEEN.removeAll();
 
