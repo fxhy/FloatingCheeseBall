@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<script src='./vendor/three.js/build/three.min.js'></script>
+<script src='./threex.planets.js'></script>
+<script src='./threex.atmospherematerial.js'></script>
+<!-- include for threex.glowdatgui -->
+<script src='./vendor/three.js/examples/js/libs/dat.gui.min.js'></script>
+<script src="./threex.atmospheredatgui.js"></script>
+<!-- <script src="../js/three.module.js"></script> -->
+
+<body style='margin: 0px; background-color: #000000; overflow: hidden;'><script type="module">
+	// import * as THREE from './three/build/three.module.js';
+	// import { TWEEN } from './three/examples/jsm/libs/tween.module.min.js';
+	// import { TrackballControls } from './three/examples/jsm/controls/TrackballControls.js';
+	// import { CSS3DRenderer, CSS3DObject } from './three/examples/jsm/renderers/CSS3DRenderer.js';
+	var renderer	= new THREE.WebGLRenderer({
+		antialias	: true
+	});
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	document.body.appendChild( renderer.domElement );
+	renderer.shadowMapEnabled	= true
+	
+	var onRenderFcts= [];
+	var scene	= new THREE.Scene();
+	var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 100 );
+	camera.position.z = 3;
+
+	var light	= new THREE.AmbientLight( 0x222222 )
+	scene.add( light )
+
+	var light	= new THREE.DirectionalLight( 0xffffff, 1 )
+	light.position.set(5,5,5)
+	scene.add( light )
+	light.castShadow	= true
+	light.shadowCameraNear	= 0.01
+	light.shadowCameraFar	= 15
+	light.shadowCameraFov	= 45
+
+	light.shadowCameraLeft	= -1
+	light.shadowCameraRight	=  1
+	light.shadowCameraTop	=  1
+	light.shadowCameraBottom= -1
+	// light.shadowCameraVisible	= true
+
+	light.shadowBias	= 0.001
+	light.shadowDarkness	= 0.2
+
+	light.shadowMapWidth	= 1024
+	light.shadowMapHeight	= 1024
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	//		added starfield							//
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	var starSphere	= createStarfield()
+	scene.add(starSphere)
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		add an object and make it move					//
+	//////////////////////////////////////////////////////////////////////////////////
+
+	// var datGUI	= new dat.GUI()
+
+	var containerMoon	= new THREE.Object3D()
+	containerMoon.rotateZ(-23.4 * Math.PI/180)
+	containerMoon.position.z	= 0
+	scene.add(containerMoon)
+
+	var moonMesh	= createMoon()
+	moonMesh.receiveShadow	= true
+	moonMesh.castShadow	= false
+	containerMoon.add(moonMesh)
+	onRenderFcts.push(function(delta, now){
+		moonMesh.rotation.y += 1/32 * delta;		
+	})
+
+	var geometry	= new THREE.SphereGeometry(0.5, 32, 32)
+	var material	= THREEx.createAtmosphereMaterial()
+	material.uniforms.glowColor.value.set(0xa3a3a3)
+	material.uniforms.coeficient.value	= 0.8
+	material.uniforms.power.value		= 2.0
+	var mesh	= new THREE.Mesh(geometry, material );
+	mesh.scale.multiplyScalar(1.01);
+	containerMoon.add( mesh );
+	// new THREEx.addAtmosphereMaterial2DatGui(material, datGUI)
+
+	var geometry	= new THREE.SphereGeometry(0.5, 32, 32)
+	var material	= THREEx.createAtmosphereMaterial()
+	material.side	= THREE.BackSide
+	material.uniforms.glowColor.value.set(0xa3a3a3)
+	material.uniforms.coeficient.value	= 0.5
+	material.uniforms.power.value		= 4.0
+	var mesh	= new THREE.Mesh(geometry, material );
+	mesh.scale.multiplyScalar(1.15);
+	containerMoon.add( mesh );
+	// new THREEx.addAtmosphereMaterial2DatGui(material, datGUI)
+
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Camera Controls							//
+	//////////////////////////////////////////////////////////////////////////////////
+	/*var mouse	= {x : 0, y : 0}
+	document.addEventListener('mousemove', function(event){
+		mouse.x	= (event.clientX / window.innerWidth ) - 0.5
+		mouse.y	= (event.clientY / window.innerHeight) - 0.5
+	}, false)
+	onRenderFcts.push(function(delta, now){
+		camera.position.x += (mouse.x*5 - camera.position.x) * (delta*3)
+		camera.position.y += (mouse.y*5 - camera.position.y) * (delta*3)
+		camera.lookAt( scene.position )
+	})*/
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		add Markers							//
+	//////////////////////////////////////////////////////////////////////////////////
+	
+	/*
+	let markerProto = {
+  latLongToVector3: function latLongToVector3(latitude, longitude, radius, height) {
+    var phi = (latitude)*Math.PI/180;
+    var theta = (longitude-180)*Math.PI/180;
+
+    var x = -(radius+height) * Math.cos(phi) * Math.cos(theta);
+    var y = (radius+height) * Math.sin(phi);
+    var z = (radius+height) * Math.cos(phi) * Math.sin(theta);
+
+    return new THREE.Vector3(x,y,z);
+  },
+  marker: function marker(size, color, vector3Position) {
+    let markerGeometry = new THREE.SphereGeometry(size);
+    let markerMaterial = new THREE.MeshLambertMaterial({
+      color: color
+    });
+    let markerMesh = new THREE.Mesh(markerGeometry, markerMaterial);
+    markerMesh.position.copy(vector3Position);
+    
+    return markerMesh;
+  }
+}
+
+// Place Marker
+let placeMarker = function(object, options) {
+  let position = markerProto.latLongToVector3(options.latitude, options.longitude, options.radius, options.height);
+  let marker = markerProto.marker(options.size, options.color, position);
+  object.add(marker);
+}
+
+// Place Marker At Address
+let placeMarkerAtAddress = function(address, color) {
+  let encodedLocation = address.replace(/\s/g, '+');
+  let httpRequest = new XMLHttpRequest();
+  
+  httpRequest.open('GET', 'https://maps.googleapis.com/maps/api/geocode/json?address=' + encodedLocation);
+  httpRequest.send(null);
+  httpRequest.onreadystatechange = function() {
+    if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+      let result = JSON.parse(httpRequest.responseText);
+      
+      if (result.results.length > 0) {
+        let latitude = result.results[0].geometry.location.lat;
+        let longitude = result.results[0].geometry.location.lng;
+
+        placeMarker(earth.getObjectByName('surface'),{
+          latitude: latitude,
+          longitude: longitude,
+          radius: 0.5,
+          height: 0,
+          size: 0.01,
+          color: color,
+        });
+      }
+    }
+  };
+}
+*/
+	const object = new THREE.CylinderGeometry( 5, 5, 20, 32 );
+	const objMaterial = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+	const cylinder = new THREE.Mesh( object, objMaterial );
+	placeObjectOnPlanet(cylinder, 15, 69, 0.5);
+
+	function placeObjectOnPlanet(object, lat, lon, radius) {
+    var latRad = lat * (Math.PI / 180);
+    var lonRad = -lon * (Math.PI / 180);
+    object.position.set(
+        Math.cos(latRad) * Math.cos(lonRad) * radius,
+        Math.sin(latRad) * radius,
+        Math.cos(latRad) * Math.sin(lonRad) * radius
+    );
+    object.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
+	}
+	moonMesh.add(cylinder);
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		Make the Universe						//
+	//////////////////////////////////////////////////////////////////////////////////
+
+	function createStarfield(){
+		var texture	= THREE.ImageUtils.loadTexture('./images/galaxy_starfield.png')
+		var material	= new THREE.MeshBasicMaterial({
+			map	: texture,
+			side	: THREE.BackSide
+		})
+		var geometry	= new THREE.SphereGeometry(100, 32, 32)
+		var mesh	= new THREE.Mesh(geometry, material)
+		return mesh	
+	}
+
+	function createMoon(){
+		var geometry	= new THREE.SphereGeometry(0.5, 32, 32)
+		var material	= new THREE.MeshPhongMaterial({
+					map	: THREE.ImageUtils.loadTexture('./images/moonmap1k.jpg'),
+					bumpMap	: THREE.ImageUtils.loadTexture('./images/moonbump1k.jpg'),
+					bumpScale: 0.002,
+				})
+				var mesh	= new THREE.Mesh(geometry, material)
+				return mesh	
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////
+	//		render the scene						//
+	//////////////////////////////////////////////////////////////////////////////////
+	onRenderFcts.push(function(){
+		renderer.render( scene, camera );		
+	})
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	//		loop runner							//
+	//////////////////////////////////////////////////////////////////////////////////
+	var lastTimeMsec= null
+	requestAnimationFrame(function animate(nowMsec){
+		// keep looping
+		requestAnimationFrame( animate );
+		// measure time
+		lastTimeMsec	= lastTimeMsec || nowMsec-1000/60
+		var deltaMsec	= Math.min(200, nowMsec - lastTimeMsec)
+		lastTimeMsec	= nowMsec
+		// call each update function
+		onRenderFcts.forEach(function(onRenderFct){
+			onRenderFct(deltaMsec/1000, nowMsec/1000)
+		})
+	})
+</script></body>
