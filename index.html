@@ -117,44 +117,44 @@
 	//////////////////////////////////////////////////////////////////////////////////
 	// table
 
-	const table = [
-				'LS','Lacus Aestatis' ,'Lake of Summer' ,1 ,1 , 
-				'LA','Lacus Autumni' ,'Lake of Autumn' , 2 ,1 , 
-				'LB', 'Lacus Bonitatis' ,'Lake of Goodness' , 3 ,1];
+	// const table = [
+	// 			'LS','Lacus Aestatis' ,'Lake of Summer' ,1 ,1 , 
+	// 			'LA','Lacus Autumni' ,'Lake of Autumn' , 2 ,1 , 
+	// 			'LB', 'Lacus Bonitatis' ,'Lake of Goodness' , 3 ,1];
 
-	for ( let i = 0; i < table.length; i ++ ) {
+	// for ( let i = 0; i < table.length; i ++ ) {
 
-		const element = document.createElement( 'div' );
-		element.className = 'element';
-		element.style.backgroundColor = 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';
+	// 	const element = document.createElement( 'div' );
+	// 	element.className = 'element';
+	// 	element.style.backgroundColor = 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';
 
-		const number = document.createElement( 'div' );
-		number.className = 'number';
-		number.textContent = ( i / 5 ) + 1;
-		element.appendChild( number );
+	// 	const number = document.createElement( 'div' );
+	// 	number.className = 'number';
+	// 	number.textContent = ( i / 5 ) + 1;
+	// 	element.appendChild( number );
 
-		const symbol = document.createElement( 'div' );
-		symbol.className = 'symbol';
-		symbol.textContent = table[ i ];
-		element.appendChild( symbol );
+	// 	const symbol = document.createElement( 'div' );
+	// 	symbol.className = 'symbol';
+	// 	symbol.textContent = table[ i ];
+	// 	element.appendChild( symbol );
 
-		const details = document.createElement( 'div' );
-		details.className = 'details';
-		details.innerHTML = table[ i + 1 ] + '<br>' + table[ i + 2 ];
-		element.appendChild( details );
+	// 	const details = document.createElement( 'div' );
+	// 	details.className = 'details';
+	// 	details.innerHTML = table[ i + 1 ] + '<br>' + table[ i + 2 ];
+	// 	element.appendChild( details );
 
-		const objectCSS = new THREE.Mesh( element );
-		objectCSS.position.x = Math.random() * 4000 - 2000;
-		objectCSS.position.y = Math.random() * 4000 - 2000;
-		objectCSS.position.z = Math.random() * 4000 - 2000;
-		// containerMoon.add( objectCSS );
+	// 	const objectCSS = new THREE.Mesh( element );
+	// 	objectCSS.position.x = Math.random() * 4000 - 2000;
+	// 	objectCSS.position.y = Math.random() * 4000 - 2000;
+	// 	objectCSS.position.z = Math.random() * 4000 - 2000;
+	// 	// containerMoon.add( objectCSS );
 
-		//objects.push( objectCSS );
+	// 	//objects.push( objectCSS );
 
-		//
+	// 	//
 
 
-	}
+	// }
 
 
 
