@@ -13,15 +13,35 @@
 	// import { TWEEN } from './three/examples/jsm/libs/tween.module.min.js';
 	// import { TrackballControls } from './three/examples/jsm/controls/TrackballControls.js';
 	import { CSS3DRenderer, CSS3DObject } from './three/examples/jsm/renderers/CSS3DRenderer.js';
+
+	// renderer = new THREE.WebGLRenderer( { alpha: true } ); // required
+	// renderer.setClearColor( 0x000000, 0 ); // the default
+	// renderer.setPixelRatio( window.devicePixelRatio );
+	// renderer.setSize( window.innerWidth, window.innerHeight );
+	// document.body.appendChild( renderer.domElement );
+
+	// renderer2 = new THREE.CSS3DRenderer();
+	// renderer2.setSize( window.innerWidth, window.innerHeight );
+	// renderer2.domElement.style.position = 'absolute';
+	// renderer2.domElement.style.top = 0;
+	// document.body.appendChild( renderer2.domElement );
+
 	var renderer	= new THREE.WebGLRenderer({
 		antialias	: true
 	});
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	document.body.appendChild( renderer.domElement );
 	renderer.shadowMapEnabled	= true
+
+	renderer2 = new THREE.CSS3DRenderer( { alpha: true } ); // required
+	renderer2.setClearColor( 0x000000, 0 ); // the default
+	renderer2.setPixelRatio( window.devicePixelRatio );
+	renderer2.setSize( window.innerWidth, window.innerHeight );
+	document.body.appendChild( renderer2.domElement );
 	
 	var onRenderFcts= [];
 	var scene	= new THREE.Scene();
+	var scene2	= new THREE.Scene();
 	var camera	= new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 100 );
 	camera.position.z = 3;
 
@@ -117,44 +137,46 @@
 	//////////////////////////////////////////////////////////////////////////////////
 	// table
 
-	// const table = [
-	// 			'LS','Lacus Aestatis' ,'Lake of Summer' ,1 ,1 , 
-	// 			'LA','Lacus Autumni' ,'Lake of Autumn' , 2 ,1 , 
-	// 			'LB', 'Lacus Bonitatis' ,'Lake of Goodness' , 3 ,1];
+	const table = [
+				'LS','Lacus Aestatis' ,'Lake of Summer' ,1 ,1 , 
+				'LA','Lacus Autumni' ,'Lake of Autumn' , 2 ,1 , 
+				'LB', 'Lacus Bonitatis' ,'Lake of Goodness' , 3 ,1];
 
-	// for ( let i = 0; i < table.length; i ++ ) {
+	for ( let i = 0; i < table.length; i ++ ) {
 
-	// 	const element = document.createElement( 'div' );
-	// 	element.className = 'element';
-	// 	element.style.backgroundColor = 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';
+		const element = document.createElement( 'div' );
+		element.className = 'element';
+		element.style.backgroundColor = 'rgba(0,127,127,' + ( Math.random() * 0.5 + 0.25 ) + ')';
 
-	// 	const number = document.createElement( 'div' );
-	// 	number.className = 'number';
-	// 	number.textContent = ( i / 5 ) + 1;
-	// 	element.appendChild( number );
+		const number = document.createElement( 'div' );
+		number.className = 'number';
+		number.textContent = ( i / 5 ) + 1;
+		element.appendChild( number );
 
-	// 	const symbol = document.createElement( 'div' );
-	// 	symbol.className = 'symbol';
-	// 	symbol.textContent = table[ i ];
-	// 	element.appendChild( symbol );
+		const symbol = document.createElement( 'div' );
+		symbol.className = 'symbol';
+		symbol.textContent = table[ i ];
+		element.appendChild( symbol );
 
-	// 	const details = document.createElement( 'div' );
-	// 	details.className = 'details';
-	// 	details.innerHTML = table[ i + 1 ] + '<br>' + table[ i + 2 ];
-	// 	element.appendChild( details );
+		const details = document.createElement( 'div' );
+		details.className = 'details';
+		details.innerHTML = table[ i + 1 ] + '<br>' + table[ i + 2 ];
+		element.appendChild( details );
 
-	// 	const objectCSS = new THREE.Mesh( element );
-	// 	objectCSS.position.x = Math.random() * 4000 - 2000;
-	// 	objectCSS.position.y = Math.random() * 4000 - 2000;
-	// 	objectCSS.position.z = Math.random() * 4000 - 2000;
-	// 	// containerMoon.add( objectCSS );
+		//const objectCSS = new THREE.Mesh( element );
+		const objectCSS = new CSS3DObject( element );
+		objectCSS.position.x = Math.random() * 4000 - 2000;
+		objectCSS.position.y = Math.random() * 4000 - 2000;
+		objectCSS.position.z = Math.random() * 4000 - 2000;
+		scene2.add(objectCSS);
+		// containerMoon.add( objectCSS );
 
-	// 	//objects.push( objectCSS );
+		//objects.push( objectCSS );
 
-	// 	//
+		//
 
 
-	// }
+	}
 
 
 
@@ -188,7 +210,8 @@
 	//		render the scene						//
 	//////////////////////////////////////////////////////////////////////////////////
 	onRenderFcts.push(function(){
-		renderer.render( scene, camera );		
+		renderer.render( scene, camera );
+		renderer2.render( scene2, camera );		
 	})
 	
 	//////////////////////////////////////////////////////////////////////////////////
